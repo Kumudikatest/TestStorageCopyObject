@@ -1,0 +1,2 @@
+# TestStorageCopyObject
+Test Copy Object
