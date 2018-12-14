@@ -1,1 +1,181 @@
-{"EDITOR_STATE":{"allProjectFiles":{"551eaae2-bcf2-47bf-9cd8-0a47e374ca48":{"id":"551eaae2-bcf2-47bf-9cd8-0a47e374ca48","parent":null,"name":"TestStorageCopyObject","type":"DIRECTORY","isDirectory":true,"children":["6d919b15-d0eb-4007-90bc-e68d17d0697d","00fde682-d159-4ff7-a3fa-9ddae3c5b11a"],"isRemovable":false,"filePath":"TestStorageCopyObject"},"6d919b15-d0eb-4007-90bc-e68d17d0697d":{"id":"6d919b15-d0eb-4007-90bc-e68d17d0697d","parent":"551eaae2-bcf2-47bf-9cd8-0a47e374ca48","name":"lambda.js","type":"LAMBDA_FILE","isDirectory":false,"children":[],"isRemovable":true,"filePath":"TestStorageCopyObject/lambda.js","code":"let AWS = require('aws-sdk');\nlet _auth = require('./Authorizer');\nlet google = require('googleapis').google;\nconst storage = google.storage('v1');\nexports.handler = function (event, context, callback) {\n\n\tstorage.objects.copy({\n\t\tsourceBucket: \"test_sigma_cloud_storage\",\n\t\tsourceObject: \"Object Key 1\",\n\t\tdestinationBucket: \"test_sigma_gcp_storage\",\n\t\tdestinationObject: \"Object Copy 1\"\n\t})\n\t\t.then(response => {\n\t\t\tconsole.log(response.data);           // successful response\n\t\t\t/*\n\t\t\tresponse.data = {\n\t\t\t\t\"kind\": \"storage#object\",\n\t\t\t\t\"id\": \"<destinationBucket>/<destinationObject>/<timestamp>\",\n\t\t\t\t\"selfLink\": \"https://www.googleapis.com/storage/v1/b/<destinationBucket>/o/<destinationObject>\",\n\t\t\t\t\"name\": \"<destinationObject>\",\n\t\t\t\t\"bucket\": \"<destinationBucket>\",\n\t\t\t\t\"contentType\": \"<content-type>\",\n\t\t\t\t\"timeCreated\": \"<yyyy-MM-ddTHH:mm:ss.###Z>\",\n\t\t\t\t\"updated\": \"<yyyy-MM-ddTHH:mm:ss.###Z>\",\n\t\t\t\t\"size\": \"<bytes>\",\n\t\t\t\t\"md5Hash\": \"<hash>\",\n\t\t\t\t\"metadata\": {\n\t\t\t\t\t\"<key1>\": \"<val1>\",\n\t\t\t\t\t\"<key2>\": \"<val2>\"\n\t\t\t\t},\n\t\t\t\t\"crc32c\": \"<crc>\",\n\t\t\t\t\"etag\": \"<etag>\"\n\t\t\t\t// , ...\n\t\t\t}\n\t\t\t*/\n\t\t})\n\t\t.catch(err => {\n\t\t\tconsole.log(err, err.stack); // an error occurred\n\t\t});\n\n\tcallback(null, 'Successfully executed');\n}","triggers":[{"resourceName":"apigusEast1TestGCPStorgeCopyObjectany","config":{}}],"config":{"memory":128,"timeout":60,"runtime":"nodejs8.10"},"version":7,"syncVersion":7,"testCases":{"a23c12e2-beec-4486-8d09-d263bae29f98":{"id":"a23c12e2-beec-4486-8d09-d263bae29f98","name":"Unnamed event","functionId":"6d919b15-d0eb-4007-90bc-e68d17d0697d","event":"{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"}}},"00fde682-d159-4ff7-a3fa-9ddae3c5b11a":{"id":"00fde682-d159-4ff7-a3fa-9ddae3c5b11a","parent":"551eaae2-bcf2-47bf-9cd8-0a47e374ca48","name":"Authorizer.js","type":"JS_FILE","isDirectory":false,"children":[],"isRemovable":true,"filePath":"TestStorageCopyObject/Authorizer.js","code":"const google = require(\"googleapis\").google;\n\nconst key = JSON.parse(process.env.GCLOUD_SERVICE_TOKEN);\nconst jwtClient = new google.auth.JWT({\n    email: key.client_email,\n    key: key.private_key,\n    scopes: [\"https://www.googleapis.com/auth/cloud-platform\"]\n});\ngoogle.options({auth: jwtClient, project: process.env.GCLOUD_PROJECT_ID});","triggers":[]}},"rootNode":"551eaae2-bcf2-47bf-9cd8-0a47e374ca48","openFiles":["6d919b15-d0eb-4007-90bc-e68d17d0697d"],"currentFileId":"6d919b15-d0eb-4007-90bc-e68d17d0697d","resources":{"apigusEast1TestGCPStorgeCopyObjectany":{"name":"apigusEast1TestGCPStorgeCopyObjectany","type":"API_GATEWAY","config":{"selectedRegion":"us-east-1","apiMode":1,"apiName":"TestGCPStorge","apiId":"w3g3lxh0jh","endpointType":"EDGE","rootResourceId":"s7ijs7tv82","existingResources":{"/ListObject":"jnfcmy","/":"s7ijs7tv82","/PutObject":"zuy564"},"resourceMode":0,"resourceName":"CopyObject","resourcePath":"/CopyObject","restMethod":"ANY","proxyIntegration":false,"enableCORS":false,"stageMode":0,"stageName":"test2"},"globallyEditable":true},"gcstestsigmacloudstorage":{"name":"gcstestsigmacloudstorage","type":"storage","config":{"mode":1,"bucket":{"region":"us-east-1","name":"test_sigma_cloud_storage"},"destinationBucket":{"name":"test_sigma_gcp_storage"}},"globallyEditable":false}},"envVariables":[{"lambdaId":"all","varKey":"SIGMA_AWS_ACC_ID","varValue":null,"shouldPersist":false,"editable":false},{"lambdaId":"all","varKey":"GCLOUD_SERVICE_TOKEN","varValue":null,"shouldPersist":false,"editable":true,"isEditable":true},{"lambdaId":"all","varKey":"GCLOUD_PROJECT_ID","varValue":null,"shouldPersist":false,"editable":true,"isEditable":true}],"packageJSON":{"dependencies":{"aws-sdk":{"name":"aws-sdk","version":"2.176.0","notRemovable":true},"googleapis":{"name":"googleapis","version":"29.0.0","notRemovable":false}}},"lambdaId":"6d919b15-d0eb-4007-90bc-e68d17d0697d","additionalFiles":[]},"PROJECT_META":{"projectName":"TestStorageCopyObject","projectDescription":"Test Copy Object","projectVersion":"1.0.0","projectRegion":"us-east-1","repoName":"TestStorageCopyObject","repoUrl":"https://github.com/Kumudikatest/TestStorageCopyObject","lastSave":1528448958932}}
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "551eaae2-bcf2-47bf-9cd8-0a47e374ca48": {
+        "id": "551eaae2-bcf2-47bf-9cd8-0a47e374ca48",
+        "parent": null,
+        "name": "TestStorageCopyObject",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "6d919b15-d0eb-4007-90bc-e68d17d0697d",
+          "00fde682-d159-4ff7-a3fa-9ddae3c5b11a"
+        ],
+        "isRemovable": false,
+        "filePath": "TestStorageCopyObject"
+      },
+      "6d919b15-d0eb-4007-90bc-e68d17d0697d": {
+        "id": "6d919b15-d0eb-4007-90bc-e68d17d0697d",
+        "parent": "551eaae2-bcf2-47bf-9cd8-0a47e374ca48",
+        "name": "lambda.js",
+        "type": "LAMBDA_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "TestStorageCopyObject/lambda.js",
+        "code": "let AWS = require('aws-sdk');\nlet _auth = require('./Authorizer');\nlet google = require('googleapis').google;\nconst storage = google.storage('v1');\nexports.handler = function (event, context, callback) {\n\n\tstorage.objects.copy({\n\t\tsourceBucket: \"test_sigma_cloud_storage\",\n\t\tsourceObject: \"Object Key 1\",\n\t\tdestinationBucket: \"test_sigma_gcp_storage\",\n\t\tdestinationObject: \"Object Copy 2\"\n\t})\n\t\t.then(response => {\n\t\t\tconsole.log(response.data);           // successful response\n\t\t\t/*\n\t\t\tresponse.data = {\n\t\t\t\t\"kind\": \"storage#object\",\n\t\t\t\t\"id\": \"<destinationBucket>/<destinationObject>/<timestamp>\",\n\t\t\t\t\"selfLink\": \"https://www.googleapis.com/storage/v1/b/<destinationBucket>/o/<destinationObject>\",\n\t\t\t\t\"name\": \"<destinationObject>\",\n\t\t\t\t\"bucket\": \"<destinationBucket>\",\n\t\t\t\t\"contentType\": \"<content-type>\",\n\t\t\t\t\"timeCreated\": \"<yyyy-MM-ddTHH:mm:ss.###Z>\",\n\t\t\t\t\"updated\": \"<yyyy-MM-ddTHH:mm:ss.###Z>\",\n\t\t\t\t\"size\": \"<bytes>\",\n\t\t\t\t\"md5Hash\": \"<hash>\",\n\t\t\t\t\"metadata\": {\n\t\t\t\t\t\"<key1>\": \"<val1>\",\n\t\t\t\t\t\"<key2>\": \"<val2>\"\n\t\t\t\t},\n\t\t\t\t\"crc32c\": \"<crc>\",\n\t\t\t\t\"etag\": \"<etag>\"\n\t\t\t\t// , ...\n\t\t\t}\n\t\t\t*/\n\t\t})\n\t\t.catch(err => {\n\t\t\tconsole.log(err, err.stack); // an error occurred\n\t\t});\n\n\tcallback(null, 'Successfully executed');\n}",
+        "triggers": [
+          {
+            "resourceName": "apigusEast1TestGCPStorgeCopyObjectany",
+            "config": {}
+          }
+        ],
+        "config": {
+          "memory": 128,
+          "timeout": 60,
+          "runtime": "nodejs8.10"
+        },
+        "testCases": {
+          "a23c12e2-beec-4486-8d09-d263bae29f98": {
+            "id": "a23c12e2-beec-4486-8d09-d263bae29f98",
+            "name": "Unnamed event",
+            "functionId": "6d919b15-d0eb-4007-90bc-e68d17d0697d",
+            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+          }
+        }
+      },
+      "00fde682-d159-4ff7-a3fa-9ddae3c5b11a": {
+        "id": "00fde682-d159-4ff7-a3fa-9ddae3c5b11a",
+        "parent": "551eaae2-bcf2-47bf-9cd8-0a47e374ca48",
+        "name": "Authorizer.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "TestStorageCopyObject/Authorizer.js",
+        "code": "const google = require(\"googleapis\").google;\n\nconst key = JSON.parse(process.env.GCLOUD_SERVICE_TOKEN);\nconst jwtClient = new google.auth.JWT({\n    email: key.client_email,\n    key: key.private_key,\n    scopes: [\"https://www.googleapis.com/auth/cloud-platform\"]\n});\ngoogle.options({auth: jwtClient, project: process.env.GCLOUD_PROJECT_ID});",
+        "triggers": []
+      }
+    },
+    "rootNode": "551eaae2-bcf2-47bf-9cd8-0a47e374ca48",
+    "openFiles": [
+      "6d919b15-d0eb-4007-90bc-e68d17d0697d"
+    ],
+    "currentFileId": "6d919b15-d0eb-4007-90bc-e68d17d0697d",
+    "resources": {
+      "apigusEast1TestGCPStorgeCopyObjectany": {
+        "name": "apigusEast1TestGCPStorgeCopyObjectany",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 1,
+          "apiName": "TestGCPStorge",
+          "apiId": "w3g3lxh0jh",
+          "endpointType": "EDGE",
+          "rootResourceId": "s7ijs7tv82",
+          "existingResources": {
+            "/ListObject": "jnfcmy",
+            "/": "s7ijs7tv82",
+            "/PutObject": "zuy564"
+          },
+          "resourceMode": 0,
+          "resourceName": "CopyObject",
+          "resourcePath": "/CopyObject",
+          "restMethod": "ANY",
+          "proxyIntegration": false,
+          "enableCORS": false,
+          "stageMode": 0,
+          "stageName": "test2"
+        },
+        "globallyEditable": true
+      },
+      "gcstestsigmacloudstorage": {
+        "name": "gcstestsigmacloudstorage",
+        "type": "storage",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "region": "us-east-1",
+            "name": "test_sigma_cloud_storage"
+          },
+          "destinationBucket": {
+            "name": "test_sigma_gcp_storage"
+          }
+        },
+        "globallyEditable": false
+      },
+      "storagetestsigmacloudstorage": {
+        "name": "storagetestsigmacloudstorage",
+        "type": "storage",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "name": "test_sigma_cloud_storage"
+          },
+          "destinationBucket": {
+            "name": "test_sigma_gcp_storage"
+          }
+        },
+        "globallyEditable": false
+      }
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      },
+      {
+        "lambdaId": "all",
+        "varKey": "GCLOUD_SERVICE_TOKEN",
+        "varValue": "{   \"type\": \"service_account\",   \"project_id\": \"bigquery-xample\",   \"private_key_id\": \"44f46e008a75f9d1083353ea43ae777e72ef568a\",   \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDOVf7h+Gk8Mmok\\np/P/6Qc8RBPLg98vRHEatUDQ+MmhfodqzWlugz4k5ZDKCpq+D/vvxur5vOaSLus6\\nMl0xKHoW1M84rAx9Xf2jvP2liwjVtpdE9ksEFOmDU1qQY2AnTibNcg4tG7p8anYb\\nU84Awc7ohbxOEhezZFjkh7UNaZRr8YeQ6cvqkoXRYo2XlcTTqyD9fEkhWOO3BNvm\\nAJyeOfYPHziWmH4wcvHxtlUqWhuNgw6IE69r7A6j4UUL2teaUUBIcVXxkYDVKJoQ\\nvbsDuysUEMgYjWZ3RVg2jFKuI7aFovho9vBhQdg8YsyeIg4SC7XW2DOxvrykXpaE\\nPd1oIPvRAgMBAAECggEAGWsjop/RCv7k744XM3P4FbcHPz+IG5ERY+pnSTcU08W8\\nFe6nKduWKMJ1E0a6KGbcsP2uzcQ1HVYVWU6CB3/GhpCB1KfxQ/JzwBuUnbOii31a\\nZj73H9IZsDlxAy+S1VS91/pQf8MWNqSA1z38N0Co5iEvgOierdVTVBfZuITEqYVX\\nMkNIJoyfbr24v6FEOctg4xs8/Dx43SVP51IBV052vBq/noW6DA/SKcs7q5NexSP7\\nlnwQB2LQKVW+EgdX9aF3amwgdKM5qR5SEZcxI1XIEqLuEHQ5WVMDdEOV+2Yliuzi\\nNM6Pzct+TuJUW6J0SrHFI9NfbwckNjnVHZMrpMeHtwKBgQD+wIQek1M4ha18xSHQ\\nPXoCRTZzAqJbuWKQEfK8sZulNcHmp1mShyQCgKF6S4/vYInJ0vynnexHyJx/cz1b\\nQ81QgMmStc6iywuZYky95GvGpJ/U1d20A53O7r5bltdutprgMwdOmKaq9h5bauxO\\nouvOAGfo6XymqauQPae+CX01pwKBgQDPWMLS9/AsawviZ8C1+dlUKk8fx7CdR4aE\\nkRquDXFuTeT6gVESUilGLVrifIX0y89v+ZNwZbrrfb83yU574QVu83mxnGM9iP8E\\nI/YYM15QbgOk4Vz9wiNFQa76X5Llx3CSC5Sj8cEtKtnQaA70XfPR6HbxVdGz5IiW\\nZQSGdMhhxwKBgQCDi4NtimORry1bXSvNrMEAxR6NmtGdjYfAnxP5rbiSQcUDRmzx\\nRckpZaR8UuJbGD1uMv11zA1DL+rnwOjw5HzzUd1EXY767t/pbyHzeCzS4RULQPf/\\nSVLGlO9Eugo6SB6HILJoOljttLMOP5MQM/6RXBJL6a0NHlXR4JRqg9ncxwKBgFUj\\nXyv9PpMeiUy3yXtvUfurO74S4sRSADwi0M+zGWZveZwayU06i1QTf4QMGX0AyvZx\\nhkbanrvfcErZz+4x4WdDdi6lxmIYBI6QrZYWUZ247qofF23i71Saudx4rfrHv8NY\\nGfqPZADF3ZYjhDB2+4yvZVeHI4o4RpVqeUc0YKs1AoGBAPRLlWpC5R5r2pqLbKut\\nzRSyOPju8cz57iTPCnnbANBZzQej9RQC9iF8vsrH6ahfDo5WQVv5fyPuyXItjPx2\\n2/fpRtBL4AMb2Vj0izj7YAv7xb/8JWohOtoKlZvyUQ/y2ADa3mpvvwUKPz53w2L8\\n/zYhHq4V0nWAvJFEekkcUg9t\\n-----END PRIVATE KEY-----\\n\",   \"client_email\": \"kumudika@bigquery-xample.iam.gserviceaccount.com\",   \"client_id\": \"110133430497886784091\",   \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",   \"token_uri\": \"https://accounts.google.com/o/oauth2/token\",   \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",   \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/kumudika%40bigquery-xample.iam.gserviceaccount.com\" }",
+        "shouldPersist": true,
+        "displayOnly": false,
+        "editable": true
+      },
+      {
+        "lambdaId": "all",
+        "varKey": "GCLOUD_PROJECT_ID",
+        "varValue": "bigquery-xample",
+        "shouldPersist": true,
+        "displayOnly": false,
+        "editable": true
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "aws-sdk": {
+          "name": "aws-sdk",
+          "version": "2.176.0",
+          "notRemovable": true
+        },
+        "googleapis": {
+          "name": "googleapis",
+          "version": "29.0.0",
+          "notRemovable": false
+        }
+      }
+    },
+    "lambdaId": "6d919b15-d0eb-4007-90bc-e68d17d0697d",
+    "additionalFiles": []
+  },
+  "PROJECT_META": {
+    "projectName": "TestStorageCopyObject",
+    "projectDescription": "Test Copy Object",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-1",
+    "platform": "AWS",
+    "platformRegions": {},
+    "lastSave": 1544781902536
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "TestStorageCopyObject",
+      "url": "https://github.com/Kumudikatest/TestStorageCopyObject"
+    }
+  }
+}

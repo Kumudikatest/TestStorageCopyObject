@@ -8,7 +8,7 @@ exports.handler = function (event, context, callback) {
 		sourceBucket: "test_sigma_cloud_storage",
 		sourceObject: "Object Key 1",
 		destinationBucket: "test_sigma_gcp_storage",
-		destinationObject: "Object Copy 1"
+		destinationObject: "Object Copy 2"
 	})
 		.then(response => {
 			console.log(response.data);           // successful response
