@@ -143,6 +143,22 @@
         "shouldPersist": true,
         "displayOnly": false,
         "editable": true
+      },
+      {
+        "lambdaId": "all",
+        "varKey": "GCP_SERVICE_ACCOUNT_KEY",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      },
+      {
+        "lambdaId": "all",
+        "varKey": "GCP_PROJECT",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
       }
     ],
     "packageJSON": {
@@ -169,7 +185,7 @@
     "projectRegion": "us-east-1",
     "platform": "AWS",
     "platformRegions": {},
-    "lastSave": 1544781902536
+    "lastSave": 1544782140631
   },
   "VCS_STATE": {
     "provider": "GitHub",
